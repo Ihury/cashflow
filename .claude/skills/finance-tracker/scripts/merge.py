@@ -27,6 +27,7 @@ from utils import (
     is_self_transfer_description,
     match_person_name,
 )
+from config import load_config
 
 
 @dataclass
@@ -262,11 +263,7 @@ class TransactionMerger:
         processed_payments = set()
 
         # Payment account → card account mappings
-        payment_to_card = {
-            "conta_itau": "cartao_itau",
-            "conta_nubank": ["cartao_nubank", "cartao_btg"],
-            "conta_btg": "cartao_btg",
-        }
+        payment_to_card = load_config("accounts")["payment_to_card"]
 
         for tx in all_transactions:
             if tx.get("id") in processed_payments:
