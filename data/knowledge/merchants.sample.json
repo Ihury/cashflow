@@ -1,0 +1,22 @@
+{
+  "merchants": {
+    "IFOOD": {
+      "category": "Alimentação",
+      "variants": [
+        "IFOOD.COM",
+        "IFD*IFOOD"
+      ],
+      "confidence": 0.9,
+      "last_seen": null
+    },
+    "UBER": {
+      "category": "Transporte",
+      "variants": [
+        "UBER *TRIP",
+        "UBER DO BRASIL"
+      ],
+      "confidence": 0.95,
+      "last_seen": null
+    }
+  }
+}

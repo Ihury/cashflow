@@ -1,0 +1,40 @@
+# === Dados pessoais (NUNCA commitar) ===
+data/transactions.json
+data/knowledge/people.json
+data/knowledge/merchants.json
+data/knowledge/rules.json
+data/knowledge/patterns.json
+
+# === Credenciais e configurações locais ===
+.mcp.json
+.mcp.sample.json
+.env
+.env.*
+
+# === Claude Code local settings ===
+.claude/settings.local.json
+
+# === Node / Build ===
+node_modules/
+dist/
+.vite/
+
+# === Python ===
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# === OS ===
+.DS_Store
+Thumbs.db
+
+# === Logs ===
+*.log
+
+# === Editor ===
+.idea/
+.vscode/
+*.swp
+*.swo

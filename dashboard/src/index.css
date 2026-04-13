@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* Nordic Ledger — light mode */
+  --color-primary: #396660;
+  --color-primary-dim: #2d5a55;
+  --color-primary-container: #bcece4;
+  --color-on-primary: #dcfff9;
+
+  --color-secondary: #466370;
+  --color-secondary-container: #c9e7f7;
+  --color-on-secondary: #ffffff;
+
+  --color-tertiary: #805353;
+  --color-tertiary-container: #fec3c3;
+  --color-on-tertiary: #ffffff;
+
+  --color-error: #9f403d;
+  --color-error-container: #fe8983;
+
+  --color-surface: #f8f9fa;
+  --color-on-surface: #2b3437;
+  --color-surface-lowest: #ffffff;
+  --color-surface-low: #f1f4f6;
+  --color-surface-container: #eaeff1;
+  --color-surface-high: #e3e9ec;
+  --color-surface-highest: #dbe4e7;
+  --color-surface-dim: #d1dce0;
+
+  --color-on-surface-variant: #586064;
+  --color-outline: #737c7f;
+  --color-outline-variant: #abb3b7;
+
+  /* Flow emphasis — vivid income/expense accents */
+  --color-income: #16a34a;
+  --color-expense: #dc2626;
+
+  /* Radii — ROUND_FOUR */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+
+  /* Spacing scale (slightly increased) */
+  --spacing: 0.28rem;
+
+  /* Display typography */
+  --text-display-lg: 3.5rem;
+  --text-display-lg--line-height: 1.02;
+  --text-display-lg--letter-spacing: -0.02em;
+  --text-display-lg--font-weight: 600;
+
+  --text-display: 2.25rem;
+  --text-display--line-height: 1.1;
+  --text-display--letter-spacing: -0.015em;
+  --text-display--font-weight: 600;
+
+  --text-headline: 1.25rem;
+  --text-headline--font-weight: 600;
+  --text-headline--line-height: 1.4;
+
+  --text-label: 0.6875rem;
+  --text-label--letter-spacing: 0.08em;
+  --text-label--font-weight: 600;
+  --text-label--line-height: 1.4;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-surface);
+  color: var(--color-on-surface);
+  font-feature-settings: "cv11", "ss01", "ss03";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}

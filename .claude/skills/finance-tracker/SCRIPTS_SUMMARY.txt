@@ -1,0 +1,163 @@
+PERSONAL FINANCE TRACKER - SCRIPTS SUMMARY
+==========================================
+
+Two Python scripts have been created for managing personal finance tracking:
+
+1. COMMIT.PY - Transaction Commit Manager
+   Location: /sessions/peaceful-gallant-hopper/mnt/pessoal-finance/finance-tracker/scripts/commit.py
+
+   Purpose: Commits processed transactions to the main database and updates knowledge base.
+   
+   Modes:
+   
+   a) DEFAULT MODE - Commit categorized transactions
+      Command: python commit.py --transactions CATEGORIZED.json --links LINKS_REPORT.json --db TRANSACTIONS.json --knowledge KNOWLEDGE_DIR
+      - Reads auto_categorized transactions from CATEGORIZED.json
+      - Applies confirmed_links from LINKS_REPORT.json
+      - Appends to TRANSACTIONS.json database
+      - Updates merchants.json with new merchant→category mappings
+      - Updates patterns.json with recurring patterns and installment groups
+      - Prints summary of committed transactions
+   
+   b) EDIT MODE - Update a transaction field
+      Command: python commit.py edit --id TX_ID --field FIELD --value VALUE --db TRANSACTIONS.json --knowledge KNOWLEDGE_DIR
+      - Finds transaction by ID
+      - Updates specified field (category, description, type, notes, etc.)
+      - If field is "category", updates merchants.json for that merchant
+      - Sets updated_at timestamp and confidence="manual"
+   
+   c) DELETE MODE - Remove a transaction
+      Command: python commit.py delete --id TX_ID --db TRANSACTIONS.json
+      - Removes transaction by ID
+      - Also removes any links referencing that transaction ID
+   
+   d) ADD MODE - Add a manual transaction
+      Command: python commit.py add --json '{"date":"2026-01-15","description":"Manual entry","amount":-50.00,"category":"Alimentacao","source":"manual"}' --db TRANSACTIONS.json --knowledge KNOWLEDGE_DIR
+      - Adds a manually created transaction
+      - Generates ID from date and description hash
+      - Sets confidence="manual"
+      - Updates merchant knowledge if provided
+   
+   e) BULK-CATEGORIZE MODE - Update category for all transactions from a merchant
+      Command: python commit.py bulk-categorize --merchant "MERCHANT_NAME" --category "New Category" --db TRANSACTIONS.json --knowledge KNOWLEDGE_DIR
+      - Updates category for ALL transactions matching that merchant
+      - Updates merchants.json to reflect new categorization
+      - Sets confidence="manual" for all updated transactions
+
+   Database Structure:
+   {
+     "version": 1,
+     "last_updated": "ISO datetime",
+     "transactions": [
+       {
+         "id": "YYYYMMDD_HASH",
+         "date": "2026-01-15",
+         "description": "Transaction description",
+         "amount": -50.00,
+         "category": "Alimentacao",
+         "merchant": "Optional merchant name",
+         "created_at": "ISO datetime",
+         "updated_at": "ISO datetime",
+         "confidence": "auto|manual",
+         "links": []
+       }
+     ]
+   }
+
+
+2. KNOWLEDGE.PY - Knowledge Base Manager
+   Location: /sessions/peaceful-gallant-hopper/mnt/pessoal-finance/finance-tracker/scripts/knowledge.py
+
+   Purpose: Manages the knowledge base files for intelligent categorization and pattern recognition.
+   
+   Actions:
+   
+   a) ADD_MERCHANT - Add or update a merchant
+      Command: python knowledge.py --action add_merchant --knowledge KNOWLEDGE_DIR --data '{"name":"OUTBACK UBERLANDIA","category":"Bares e restaurantes","variants":["OUTBACK","Outback"]}'
+      - Adds merchant with category mapping
+      - Tracks variant names for fuzzy matching
+      - Updates existing merchants if found
+   
+   b) ADD_RULE - Add a categorization rule
+      Command: python knowledge.py --action add_rule --knowledge KNOWLEDGE_DIR --data '{"pattern":"PIX QRS RECEITA FED","match_field":"description","action":{"set_category":"Impostos e Taxas"},"priority":10}'
+      - Creates pattern-based categorization rules
+      - Priority controls rule application order (highest first)
+      - Matches on specified field (description, merchant, etc.)
+   
+   c) ADD_PERSON - Add a person profile
+      Command: python knowledge.py --action add_person --knowledge KNOWLEDGE_DIR --data '{"name":"partner","full_name":"Partner Name","relationship":"partner","variants":["Partner N","PARTNER NAME"],"typical_patterns":["split_bill","reimbursement"]}'
+      - Creates profiles for people involved in transactions
+      - Tracks relationship types
+      - Records typical transaction patterns with them
+   
+   d) ADD_PATTERN - Add a recurring or installment pattern
+      Command: python knowledge.py --action add_pattern --knowledge KNOWLEDGE_DIR --data '{"type":"recurring","description_pattern":"Mapfre*Pcl","frequency":"monthly","typical_amount":-275.65,"category":"Transporte"}'
+      - Type can be "recurring" (monthly, annual, etc.) or "installment" (multi-part purchase)
+      - Stores typical amounts and frequencies for pattern recognition
+   
+   e) LIST - Print knowledge base summary
+      Command: python knowledge.py --action list --knowledge KNOWLEDGE_DIR
+      - Shows count of merchants, rules, people, and patterns
+      - Displays first 5 of each category
+      - Helps verify knowledge base contents
+   
+   f) EXPORT - Export full knowledge base as JSON
+      Command: python knowledge.py --action export --knowledge KNOWLEDGE_DIR
+      - Outputs complete knowledge base to stdout
+      - Useful for backup or sharing
+      - Includes all merchants, rules, people, and patterns
+
+   Knowledge Base Files:
+   - merchants.json: Merchant→category mappings with variants and confidence scores
+   - rules.json: Pattern-based categorization rules
+   - people.json: Person profiles with relationship types and typical patterns
+   - patterns.json: Recurring and installment pattern definitions
+
+
+UTILITY MODULE (utils.py)
+=========================
+Common functions used by both scripts:
+
+- load_json(filepath): Load JSON file, return empty dict if not found
+- save_json(filepath, data): Save data to JSON file with proper formatting
+- normalize_text(text): Normalize text for comparison (lowercase, remove prefixes, etc.)
+- generate_transaction_id(transaction): Generate unique ID from date and description hash
+- get_iso_datetime(): Get current datetime in ISO format
+- print_transaction_summary(transactions): Print summary statistics of transactions
+
+
+USAGE EXAMPLES
+==============
+
+1. Start with adding merchants to knowledge base:
+   python knowledge.py --action add_merchant --knowledge ./kb --data '{"name":"STARBUCKS","category":"Alimentacao"}'
+
+2. Commit batch of categorized transactions:
+   python commit.py --transactions categorized.json --db transactions.json --knowledge ./kb
+
+3. Fix a miscategorized transaction:
+   python commit.py edit --id 20260115_ABC123 --field category --value "Restaurantes" --db transactions.json --knowledge ./kb
+
+4. Add a recurring pattern:
+   python knowledge.py --action add_pattern --knowledge ./kb --data '{"type":"recurring","description_pattern":"Netflix","frequency":"monthly","category":"Entretenimento"}'
+
+5. Bulk fix all transactions from a merchant:
+   python commit.py bulk-categorize --merchant "RESTAURANTE XYZ" --category "Bares e restaurantes" --db transactions.json --knowledge ./kb
+
+6. View knowledge base contents:
+   python knowledge.py --action list --knowledge ./kb
+
+7. Backup knowledge base:
+   python knowledge.py --action export --knowledge ./kb > kb_backup.json
+
+8. Manually add a transaction:
+   python commit.py add --json '{"date":"2026-03-12","description":"Almoco","amount":-75.50,"category":"Alimentacao"}' --db transactions.json --knowledge ./kb
+
+
+FILES CREATED
+=============
+- /sessions/peaceful-gallant-hopper/mnt/pessoal-finance/finance-tracker/scripts/utils.py (utilities module)
+- /sessions/peaceful-gallant-hopper/mnt/pessoal-finance/finance-tracker/scripts/commit.py (transaction manager - executable)
+- /sessions/peaceful-gallant-hopper/mnt/pessoal-finance/finance-tracker/scripts/knowledge.py (knowledge base manager - executable)
+
+All scripts are Python 3 compatible, include error handling for missing files, and initialize empty structures gracefully.

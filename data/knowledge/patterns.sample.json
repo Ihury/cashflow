@@ -1,0 +1,20 @@
+{
+  "debt_chains": [
+    {
+      "creditor": "person_a",
+      "debtor_to_user": "person_b",
+      "description": "Person B pays debt to you, you forward to Person A",
+      "typical_flow": "income from B → expense to A, similar amounts, close dates"
+    }
+  ],
+  "installment_groups": [],
+  "recurring": [
+    {
+      "description_pattern": "Imobiliária Exemplo",
+      "frequency": "monthly",
+      "typical_amount": -1500.00,
+      "category": "Casa",
+      "notes": "Aluguel"
+    }
+  ]
+}

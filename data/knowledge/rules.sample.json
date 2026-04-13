@@ -1,0 +1,25 @@
+{
+  "rules": [
+    {
+      "id": "r001",
+      "pattern": "FATURA PAGA",
+      "match_field": "description",
+      "action": {
+        "set_type": "invoice_payment"
+      },
+      "priority": 20,
+      "notes": "Pagamento de fatura de cartão"
+    },
+    {
+      "id": "r002",
+      "pattern": "REND PAGO APLIC",
+      "match_field": "description",
+      "action": {
+        "set_type": "income",
+        "set_category": "Rendimento"
+      },
+      "priority": 15,
+      "notes": "Rendimento de aplicação automática"
+    }
+  ]
+}

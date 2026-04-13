@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "last_updated": "2026-01-01T00:00:00.000000Z",
+  "transactions": [
+    {
+      "id": "abc123def456...",
+      "date": "2026-01-15",
+      "time": null,
+      "description": "Supermercado Exemplo",
+      "description_clean": "SUPERMERCADO EXEMPLO",
+      "amount": -150.00,
+      "source": "conta_banco",
+      "account_type": "checking",
+      "category": "Mercado",
+      "type": "expense",
+      "counterpart": null,
+      "status": "Pago",
+      "invoice_ref": null,
+      "installment": null,
+      "links": [],
+      "confidence": "auto",
+      "notes": "",
+      "original_data": {
+        "source": "Conta Banco",
+        "data": "15.01.2026",
+        "descricao": "Supermercado Exemplo",
+        "categoria": "Mercado",
+        "valor": -150.00,
+        "situacao": "Pago",
+        "informacoes_adicionais": null
+      }
+    },
+    {
+      "id": "def789ghi012...",
+      "date": "2026-01-05",
+      "time": null,
+      "description": "Empresa LTDA",
+      "description_clean": "EMPRESA LTDA",
+      "amount": 5000.00,
+      "source": "conta_banco",
+      "account_type": "checking",
+      "category": "Salário",
+      "type": "income",
+      "counterpart": null,
+      "status": "Pago",
+      "invoice_ref": null,
+      "installment": null,
+      "links": [],
+      "confidence": "auto",
+      "notes": "",
+      "original_data": {
+        "source": "Conta Banco",
+        "data": "05.01.2026",
+        "descricao": "Empresa LTDA",
+        "categoria": "Salário",
+        "valor": 5000.00,
+        "situacao": "Pago",
+        "informacoes_adicionais": null
+      }
+    }
+  ]
+}
