@@ -5,14 +5,9 @@ export type TransactionType =
   | 'invoice_payment'
   | 'benefit_credit';
 
-export type TransactionSource =
-  | 'flash'
-  | 'conta_btg'
-  | 'conta_itau'
-  | 'conta_nubank'
-  | 'cartao_btg'
-  | 'cartao_itau'
-  | 'cartao_nubank';
+import { SOURCE_LABELS } from '../config/personal.local';
+
+export type TransactionSource = keyof typeof SOURCE_LABELS;
 
 export type AccountType = 'checking' | 'credit_card' | 'benefit';
 
