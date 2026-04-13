@@ -41,3 +41,4 @@ Thumbs.db
 
 # === Configurações pessoais de código (NUNCA commitar) ===
 dashboard/src/config/*.local.ts
+data/config/*.local.json

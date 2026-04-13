@@ -37,6 +37,7 @@ from utils import (
     is_self_transfer_description,
     is_benefit_credit_description,
 )
+from config import load_config
 
 
 class TransactionIngestor:
@@ -57,17 +58,12 @@ class TransactionIngestor:
 class OrganizzeIngestor(TransactionIngestor):
     """Ingests Organizze XLS files."""
 
-    VALID_SHEETS = [
-        'Conta BTG',
-        'Conta Itaú',
-        'Conta Nubank',
-        'Cartão BTG',
-        'Cartão Itaú',
-        'Cartão Nubank',
-    ]
-
     CONTA_COLUMNS = ['Data', 'Descrição', 'Categoria', 'Valor', 'Situação', 'Informações adicionais']
     CARTAO_COLUMNS = ['Data', 'Descrição', 'Categoria', 'Valor', 'Fatura', 'Informações adicionais']
+
+    def __init__(self):
+        super().__init__()
+        self.VALID_SHEETS = load_config("ingest")["valid_sheets"]
 
     def ingest(self, filepath: str) -> List[Dict]:
         """
